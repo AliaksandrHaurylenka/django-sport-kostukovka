@@ -1,0 +1,49 @@
+{% extends 'sport_kostukovka/base.html' %}
+
+{% block content %}
+  <!-- Post -->
+  {% for n in news %}
+    <article class="post">
+      <header>
+        <div class="title">
+          <h2><a href="#">{{n.title}}</a></h2>
+          <!--<p>Категория: {{n.cat}}</p>-->
+        </div>
+        <div class="meta">
+          <!--<p class="first">Категория: {{p.cat}}</p>-->
+          <time class="published" datetime="{{n.time_update|date:'F d, Y'}}">{{n.time_update|date:"F d, Y"}}</time>
+          <!--<a href="#" class="author"><span class="name">Jane Doe</span><img src="images/avatar.jpg" alt="" /></a>-->
+        </div>
+      </header>
+
+
+      {% if n.photo %}
+        <!--<p><img class="img-article-left thumb" src="{{p.photo.url}}"></p>-->
+        <a href="#" class="image featured"><img src="{{n.photo.url}}" alt="" /></a>
+      {% endif %}
+
+
+      {% autoescape on %}
+        <p>{{n.content|linebreaks|truncatewords:50}}</p>
+      {% endautoescape %}
+
+
+      <footer>
+        <ul class="actions">
+          <li><a href="#" class="button big">Продолжить чтение</a></li>
+        </ul>
+        <ul class="stats">
+          <li><a href="#">General</a></li>
+          <li><a href="#" class="icon fa-heart">28</a></li>
+          <li><a href="#" class="icon fa-comment">128</a></li>
+        </ul>
+      </footer>
+    </article>
+  {% endfor %}
+
+  <!-- Pagination -->
+    <ul class="actions pagination">
+      <li><a href="" class="disabled button big previous">Previous Page</a></li>
+      <li><a href="#" class="button big next">Next Page</a></li>
+    </ul>
+{% endblock %}

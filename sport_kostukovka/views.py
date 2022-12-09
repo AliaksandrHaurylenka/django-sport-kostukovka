@@ -1,13 +1,16 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 
+from .models import *
 
-menu = ["Новости", "Добавить статью", "Контакты", "Войти"]
+
+menu = ["Спортивные секции", "Новости", "Контакты", "Войти"]
 
 
 def index(request):
-    return render(request, 'kostukovka/index.html', {'menu': menu, 'title': 'Спорт-Костюковка'})
+    return render(request, 'sport_kostukovka/index.html', {'menu': menu, 'title': 'Спорт-Костюковка'})
 
 
 def news(request):
-    return render(request, 'kostukovka/news.html', {'menu': menu, 'title': 'Новости'})
+    news = News.objects.all()
+    return render(request, 'sport_kostukovka/news.html', {'news': news, 'menu': menu, 'title': 'Новости'})
