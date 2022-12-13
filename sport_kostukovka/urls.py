@@ -9,4 +9,5 @@ urlpatterns = [
     path('contact/', contact, name='contact'),
     path('login/', login, name='login'),
     path('news/<int:news_id>/', show_news, name='news'),
+    path('category/<int:cat_id>/', show_category, name='category'),
 ]
