@@ -8,7 +8,8 @@ menu = ["Спортивные секции", "Новости", "Контакты
 
 
 def index(request):
-    return render(request, 'sport_kostukovka/index.html', {'menu': menu, 'title': 'Спорт-Костюковка'})
+    news = News.objects.all()
+    return render(request, 'sport_kostukovka/index.html', {'news': news, 'menu': menu, 'title': 'Спорт-Костюковка'})
 
 
 def news(request):
