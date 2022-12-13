@@ -1,4 +1,5 @@
 {% extends 'sport_kostukovka/base.html' %}
+{% load static %}
 
 {% block content %}
   <!-- Post -->
@@ -6,20 +7,19 @@
     <article class="post">
       <header>
         <div class="title">
-          <h2><a href="#">{{n.title}}</a></h2>
+          <h2><a href="{{ n.get_absolute_url }}">{{n.title}}</a></h2>
           <!--<p>Категория: {{n.cat}}</p>-->
         </div>
         <div class="meta">
           <!--<p class="first">Категория: {{p.cat}}</p>-->
           <time class="published" datetime="{{n.time_update|date:'F d, Y'}}">{{n.time_update|date:"F d, Y"}}</time>
-          <!--<a href="#" class="author"><span class="name">Jane Doe</span><img src="images/avatar.jpg" alt="" /></a>-->
+          <a href="#" class="author"><span class="name">Jane Doe</span><img src="{% static 'sport_kostukovka/images/avatar.jpg' %}" alt="" /></a>
         </div>
       </header>
 
 
       {% if n.photo %}
-        <!--<p><img class="img-article-left thumb" src="{{p.photo.url}}"></p>-->
-        <a href="#" class="image featured"><img src="{{n.photo.url}}" alt="" /></a>
+        <a href="{{ n.get_absolute_url }}" class="image featured"><img src="{{n.photo.url}}" alt="" /></a>
       {% endif %}
 
 
@@ -30,7 +30,7 @@
 
       <footer>
         <ul class="actions">
-          <li><a href="#" class="button big">Продолжить чтение</a></li>
+          <li><a href="{{ n.get_absolute_url }}" class="button big">Продолжить чтение</a></li>
         </ul>
         <ul class="stats">
           <li><a href="#">General</a></li>

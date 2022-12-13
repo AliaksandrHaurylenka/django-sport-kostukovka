@@ -17,15 +17,15 @@
   <div id="wrapper">
     {% block mainmenu %}
       <header id="header">
-        <h1><a href="#">Главная</a></h1>
+        <h1><a href="{% url 'home' %}">Главная</a></h1>
         <nav class="links">
           <ul>
             <!--<li class="logo"><a href="{% url 'home' %}"><div class="logo"></div></a></li>-->
             {% for m in menu %}
               {% if not forloop.last %}
-                <li><a href="#">{{m.title}}</a></li>
+                <li><a href="{% url m.url_name %}">{{m.title}}</a></li>
               {% else %}
-                <li class="last"><a href="#">{{m.title}}</a></li>
+                <li class="last"><a href="{% url m.url_name %}">{{m.title}}</a></li>
               {% endif %}
             {% endfor %}
           </ul>
@@ -59,7 +59,7 @@
 
         <!-- Intro -->
         <section id="intro">
-          <a href="#" class="logo"><img src="images/logo.jpg" alt="" /></a>
+          <a href="{% url 'home' %}" class="logo"><img src="{% static 'sport_kostukovka/images/logo.jpg' %}" alt="" /></a>
           <header>
             <h2>Спорт-Костюковка</h2>
 <!--            <p>Another fine responsive site template by <a href="http://html5up.net">HTML5 UP</a></p>-->
@@ -88,51 +88,17 @@
         <!-- Posts List -->
         <section>
           <ul class="posts">
-            <li>
+            {% for n in news %}
+              <li>
               <article>
                 <header>
-                  <h3><a href="#">Lorem ipsum fermentum ut nisl vitae</a></h3>
-                  <time class="published" datetime="2015-10-20">October 20, 2015</time>
+                  <h3><a href="#">{{n.title}}</a></h3>
+                  <time class="published" datetime="{{n.time_update|date:'F d, Y'}}">{{n.time_update|date:"F d, Y"}}</time>
                 </header>
-                <a href="#" class="image"><img src="images/pic08.jpg" alt="" /></a>
+                <a href="#" class="image"><img src="{{n.photo.url}}" alt="" /></a>
               </article>
             </li>
-            <li>
-              <article>
-                <header>
-                  <h3><a href="#">Convallis maximus nisl mattis nunc id lorem</a></h3>
-                  <time class="published" datetime="2015-10-15">October 15, 2015</time>
-                </header>
-                <a href="#" class="image"><img src="images/pic09.jpg" alt="" /></a>
-              </article>
-            </li>
-            <li>
-              <article>
-                <header>
-                  <h3><a href="#">Euismod amet placerat vivamus porttitor</a></h3>
-                  <time class="published" datetime="2015-10-10">October 10, 2015</time>
-                </header>
-                <a href="#" class="image"><img src="images/pic10.jpg" alt="" /></a>
-              </article>
-            </li>
-            <li>
-              <article>
-                <header>
-                  <h3><a href="#">Magna enim accumsan tortor cursus ultricies</a></h3>
-                  <time class="published" datetime="2015-10-08">October 8, 2015</time>
-                </header>
-                <a href="#" class="image"><img src="images/pic11.jpg" alt="" /></a>
-              </article>
-            </li>
-            <li>
-              <article>
-                <header>
-                  <h3><a href="#">Congue ullam corper lorem ipsum dolor</a></h3>
-                  <time class="published" datetime="2015-10-06">October 7, 2015</time>
-                </header>
-                <a href="#" class="image"><img src="images/pic12.jpg" alt="" /></a>
-              </article>
-            </li>
+            {% endfor %}
           </ul>
         </section>
 
