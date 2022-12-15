@@ -1,0 +1,52 @@
+{% extends 'sport_kostukovka/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- Main -->
+  <div id="main">
+
+  <!-- Post -->
+    <article class="post">
+      <header>
+        <div class="title">
+          <h2>{{post.title}}</h2>
+          <p>Категория: {{post.cat.name}}</p>
+        </div>
+        <div class="meta">
+          <time class="published" datetime="{{post.time_update|date:'F d, Y'}}">{{post.time_update|date:"F d, Y"}}</time>
+          <a href="#" class="author"><span class="name">Jane Doe</span><img src="{% static 'sport_kostukovka/images/avatar.jpg' %}" alt="" /></a>
+        </div>
+      </header>
+      {% if post.photo %}
+        <span class="image featured"><img src="{{post.photo.url}}" alt="" /></span>
+      {% endif %}
+
+      {% autoescape on %}
+        <p>{{post.content|linebreaks}}</p>
+      {% endautoescape %}
+
+      <footer>
+        <ul class="stats">
+          <li><a href="#">General</a></li>
+          <li><a href="#" class="icon fa-heart">28</a></li>
+          <li><a href="#" class="icon fa-comment">128</a></li>
+        </ul>
+      </footer>
+    </article>
+
+
+    <!-- Footer -->
+      <section id="footer">
+        <ul class="icons">
+          <li><a href="#" class="fa-twitter"><span class="label">Twitter</span></a></li>
+          <li><a href="#" class="fa-facebook"><span class="label">Facebook</span></a></li>
+          <li><a href="#" class="fa-instagram"><span class="label">Instagram</span></a></li>
+          <li><a href="#" class="fa-rss"><span class="label">RSS</span></a></li>
+          <li><a href="#" class="fa-envelope"><span class="label">Email</span></a></li>
+        </ul>
+        <p class="copyright">&copy; Untitled. Design: <a href="http://html5up.net">HTML5 UP</a>. Images: <a href="http://unsplash.com">Unsplash</a>.</p>
+      </section>
+
+  </div>
+{% endblock %}

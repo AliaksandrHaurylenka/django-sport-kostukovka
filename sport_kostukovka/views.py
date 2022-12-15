@@ -1,5 +1,5 @@
-from django.http import HttpResponse
-from django.shortcuts import render
+from django.http import HttpResponse, Http404, HttpResponseNotFound
+from django.shortcuts import render, redirect, get_object_or_404
 
 from .models import *
 
@@ -18,11 +18,11 @@ def index(request):
 
 
 def news(request):
-    news = News.objects.all()
+    posts = News.objects.all()
     cats = Category.objects.all()
 
     context = {
-        'news': news,
+        'news': posts,
         'menu': menu,
         'cats': cats,
         'cat_selected': 0,
@@ -33,7 +33,7 @@ def news(request):
 
 
 def sport_sections(request):
-    return HttpResponse("Добавление статьи")
+    return HttpResponse("Спортивные секции")
 
 
 def contact(request):
@@ -44,9 +44,34 @@ def login(request):
     return HttpResponse("Авторизация")
 
 
-def show_news(request, news_id):
-    return HttpResponse(f"Отображение статьи с id = {news_id}")
+def show_news(request, post_slug):
+    posts = News.objects.all()
+    post = get_object_or_404(News, slug=post_slug)
+
+    context = {
+        'news': posts,
+        'post': post,
+        'menu': menu,
+        'title': post.title,
+        'cat_selected': post.cat_id,
+    }
+
+    return render(request, 'sport_kostukovka/post.html', context=context)
 
 
 def show_category(request, cat_id):
-    return HttpResponse(f"Отображение категории с id = {cat_id}")
+    posts = News.objects.filter(cat_id=cat_id)
+    cats = Category.objects.all()
+
+    if len(posts) == 0:
+        raise Http404()
+
+    context = {
+        'news': posts,
+        'menu': menu,
+        'cats': cats,
+        'title': 'Спортивные события',
+        'cat_selected': cat_id,
+    }
+
+    return render(request, 'sport_kostukovka/news.html', context=context)
