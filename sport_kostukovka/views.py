@@ -45,7 +45,18 @@ def login(request):
 
 
 def show_news(request, post_id):
-    return HttpResponse(f"Отображение статьи с id = {post_id}")
+    posts = News.objects.all()
+    post = get_object_or_404(News, pk=post_id)
+
+    context = {
+        'news': posts,
+        'post': post,
+        'menu': menu,
+        'title': post.title,
+        'cat_selected': post.cat_id,
+    }
+
+    return render(request, 'sport_kostukovka/post.html', context=context)
 
 
 def show_category(request, cat_id):
