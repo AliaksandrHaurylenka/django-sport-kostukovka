@@ -44,9 +44,9 @@ def login(request):
     return HttpResponse("Авторизация")
 
 
-def show_news(request, post_id):
+def show_news(request, post_slug):
     posts = News.objects.all()
-    post = get_object_or_404(News, pk=post_id)
+    post = get_object_or_404(News, slug=post_slug)
 
     context = {
         'news': posts,
