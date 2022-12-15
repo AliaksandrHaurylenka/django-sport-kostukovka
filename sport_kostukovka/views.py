@@ -18,11 +18,11 @@ def index(request):
 
 
 def news(request):
-    news = News.objects.all()
+    posts = News.objects.all()
     cats = Category.objects.all()
 
     context = {
-        'news': news,
+        'news': posts,
         'menu': menu,
         'cats': cats,
         'cat_selected': 0,
@@ -44,19 +44,30 @@ def login(request):
     return HttpResponse("Авторизация")
 
 
-def show_news(request, news_id):
-    return HttpResponse(f"Отображение статьи с id = {news_id}")
+def show_news(request, post_id):
+    posts = News.objects.all()
+    post = get_object_or_404(News, pk=post_id)
+
+    context = {
+        'news': posts,
+        'post': post,
+        'menu': menu,
+        'title': post.title,
+        'cat_selected': post.cat_id,
+    }
+
+    return render(request, 'sport_kostukovka/post.html', context=context)
 
 
 def show_category(request, cat_id):
-    news = News.objects.filter(cat_id=cat_id)
+    posts = News.objects.filter(cat_id=cat_id)
     cats = Category.objects.all()
 
-    if len(news) == 0:
+    if len(posts) == 0:
         raise Http404()
 
     context = {
-        'news': news,
+        'news': posts,
         'menu': menu,
         'cats': cats,
         'title': 'Спортивные события',

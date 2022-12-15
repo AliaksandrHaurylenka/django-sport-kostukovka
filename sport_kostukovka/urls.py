@@ -8,6 +8,6 @@ urlpatterns = [
     path('news/', news, name='news'),
     path('contact/', contact, name='contact'),
     path('login/', login, name='login'),
-    path('news/<int:news_id>/', show_news, name='news'),
+    path('news/<int:post_id>/', show_news, name='post'),
     path('category/<int:cat_id>/', show_category, name='category'),
 ]

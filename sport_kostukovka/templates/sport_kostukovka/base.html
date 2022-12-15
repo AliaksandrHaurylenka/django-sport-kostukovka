@@ -74,11 +74,11 @@
             <!-- Mini Post -->
               <article class="mini-post">
                 <header>
-                  <h3><a href="#">{{n.title}}</a></h3>
+                  <h3><a href="{{n.get_absolute_url}}">{{n.title}}</a></h3>
                   <time class="published" datetime="{{n.time_update|date:'F d, Y'}}">{{n.time_update|date:"F d, Y"}}</time>
-<!--                  <a href="#" class="author"><img src="images/avatar.jpg" alt="" /></a>-->
+                  <a href="#" class="author"><img src="{% static 'sport_kostukovka/images/avatar.jpg' %}" alt="" /></a>
                 </header>
-                <a href="#" class="image"><img src="{{n.photo.url}}" alt="" /></a>
+                <a href="{{n.get_absolute_url}}" class="image"><img src="{{n.photo.url}}" alt="" /></a>
               </article>
             {% endfor %}
 
@@ -92,10 +92,10 @@
               <li>
               <article>
                 <header>
-                  <h3><a href="#">{{n.title}}</a></h3>
+                  <h3><a href="{{n.get_absolute_url}}">{{n.title}}</a></h3>
                   <time class="published" datetime="{{n.time_update|date:'F d, Y'}}">{{n.time_update|date:"F d, Y"}}</time>
                 </header>
-                <a href="#" class="image"><img src="{{n.photo.url}}" alt="" /></a>
+                <a href="{{n.get_absolute_url}}" class="image"><img src="{{n.photo.url}}" alt="" /></a>
               </article>
             </li>
             {% endfor %}
