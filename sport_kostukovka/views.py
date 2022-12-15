@@ -18,11 +18,11 @@ def index(request):
 
 
 def news(request):
-    news = News.objects.all()
+    posts = News.objects.all()
     cats = Category.objects.all()
 
     context = {
-        'news': news,
+        'news': posts,
         'menu': menu,
         'cats': cats,
         'cat_selected': 0,
