@@ -1,10 +1,10 @@
 from django.http import HttpResponse, Http404, HttpResponseNotFound
 from django.shortcuts import render, redirect, get_object_or_404
 
+from .forms import *
 from .models import *
 
 
-# menu = ["Спортивные секции", "Новости", "Контакты", "Войти"]
 menu = [{'title': "Спортивные секции", 'url_name': 'sport_sections'},
         {'title': "Новости", 'url_name': 'news'},
         {'title': "Контакты", 'url_name': 'contact'},
@@ -30,6 +30,27 @@ def news(request):
     }
 
     return render(request, 'sport_kostukovka/news.html', context=context)
+
+
+def addpage(request):
+    posts = News.objects.all()
+    if request.method == 'POST':
+        form = AddPostForm(request.POST, request.FILES)
+        if form.is_valid():
+            # print(form.cleaned_data)
+            form.save()
+            return redirect('home')
+    else:
+        form = AddPostForm()
+    # return render(request, 'women/addpage.html', {'form': form, 'menu': menu, 'title': 'Добавление статьи'})
+
+    context = {
+        'news': posts,
+        'menu': menu,
+        'form': form,
+        'title': 'Добавление статьи'
+    }
+    return render(request, 'sport_kostukovka/addpage.html', context=context)
 
 
 def sport_sections(request):
