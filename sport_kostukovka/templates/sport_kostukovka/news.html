@@ -1,5 +1,6 @@
 {% extends 'sport_kostukovka/base.html' %}
 {% load static %}
+{% load sport_kostukovka_tags %}
 
 {% block content %}
   <ul>
@@ -9,13 +10,7 @@
       <li><a href="{% url 'news' %}">Все категории</a></li>
     {% endif %}
 
-    {% for c in cats %}
-      {% if c.slag == cat_selected %}
-        <li class="selected">{{c.name}}</li>
-      {% else %}
-        <li><a href="{{c.get_absolute_url}}">{{c.name}}</a></li>
-      {% endif %}
-    {% endfor %}
+    {% show_categories cat_selected=cat_selected %}
 
     <li><a href="{% url 'add_page' %}">Добавить статью</a>
   </ul>

@@ -1,4 +1,6 @@
 {% load static %}
+{% load sport_kostukovka_tags %}
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -101,7 +103,7 @@
         <!-- Posts List -->
         <section>
           <ul class="posts">
-            {% for n in news %}
+            {% for n in posts %}
               <li>
               <article>
                 <header>
