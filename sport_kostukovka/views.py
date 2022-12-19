@@ -57,7 +57,6 @@ def addpage(request):
             return redirect('home')
     else:
         form = AddPostForm()
-    # return render(request, 'women/addpage.html', {'form': form, 'menu': menu, 'title': 'Добавление статьи'})
 
     context = {
         'posts': posts,
