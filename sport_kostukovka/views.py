@@ -5,13 +5,7 @@ from django.views.generic import ListView, DetailView, CreateView
 
 from .forms import *
 from .models import *
-
-
-menu = [{'title': "Спортивные секции", 'url_name': 'sport_sections'},
-        {'title': "Новости", 'url_name': 'news'},
-        {'title': "Контакты", 'url_name': 'contact'},
-        {'title': "Войти", 'url_name': 'login'}
-]
+from .utils import *
 
 
 def index(request):
@@ -19,17 +13,15 @@ def index(request):
     return render(request, 'sport_kostukovka/index.html', {'posts': posts, 'menu': menu, 'title': 'Спорт-Костюковка'})
 
 
-class SportKostukovkaNews(ListView):
+class SportKostukovkaNews(DataMixin, ListView):
     model = News
     template_name = 'sport_kostukovka/news.html'
     context_object_name = 'posts'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['menu'] = menu
-        context['title'] = 'Спортивные события'
-        context['cat_selected'] = 0
-        return context
+        c_def = self.get_user_context(title="Спортивные события")
+        return dict(list(context.items()) + list(c_def.items()))
 
     def get_queryset(self):
         return News.objects.filter(is_published=True)
@@ -48,7 +40,7 @@ class SportKostukovkaNews(ListView):
 #     return render(request, 'sport_kostukovka/news.html', context=context)
 
 
-class AddPage(CreateView):
+class AddPage(DataMixin, CreateView):
     form_class = AddPostForm
     template_name = 'sport_kostukovka/addpage.html'
     context_object_name = 'posts'
@@ -56,8 +48,8 @@ class AddPage(CreateView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Добавление статьи'
-        context['menu'] = menu
+        c_def = self.get_user_context(title="Добавление статьи")
+        context = dict(list(context.items()) + list(c_def.items()))
         return context
 # def addpage(request):
 #     posts = News.objects.all()
@@ -91,7 +83,7 @@ def login(request):
     return HttpResponse("Авторизация")
 
 
-class ShowPost(DetailView):
+class ShowPost(DataMixin, DetailView):
     model = News
     template_name = 'sport_kostukovka/post.html'
     slug_url_kwarg = 'post_slug'
@@ -99,10 +91,8 @@ class ShowPost(DetailView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = context['post']
-        context['menu'] = menu
-        # context['posts'] = posts
-        return context
+        c_def = self.get_user_context(title=context['post'])
+        return dict(list(context.items()) + list(c_def.items()))
 
 # def show_news(request, post_slug):
 #     posts = News.objects.all()
@@ -119,7 +109,7 @@ class ShowPost(DetailView):
 #     return render(request, 'sport_kostukovka/post.html', context=context)
 
 
-class SportKostukovkaCategory(ListView):
+class SportKostukovkaCategory(DataMixin, ListView):
     model = News
     template_name = 'sport_kostukovka/news.html'
     context_object_name = 'posts'
@@ -130,15 +120,22 @@ class SportKostukovkaCategory(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Категория - ' + str(context['posts'][0].cat)
-        context['menu'] = menu
-        context['cat_selected'] = context['posts'][0].cat_id
-        return context
+        c_def = self.get_user_context(title='Категория - ' + str(context['posts'][0].cat),
+                                      cat_selected=context['posts'][0].cat_id)
+        # return dict(list(context.items()) + list(c_def.items()))
+        return {**context, **c_def}
+
+    # def get_context_data(self, *, object_list=None, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['title'] = 'Категория - ' + str(context['posts'][0].cat)
+    #     context['menu'] = menu
+    #     context['cat_selected'] = context['posts'][0].cat_id
+    #     return context
 
 
 # def show_category(request, cat_id):
 #     posts = News.objects.filter(cat_id=cat_id)
-#     # cats = Category.objects.all()
+#     cats = Category.objects.all()
 #
 #     if len(posts) == 0:
 #         raise Http404()
@@ -146,7 +143,7 @@ class SportKostukovkaCategory(ListView):
 #     context = {
 #         'posts': posts,
 #         'menu': menu,
-#         # 'cats': cats,
+#         'cats': cats,
 #         'title': 'Спортивные события',
 #         'cat_selected': cat_id,
 #     }
