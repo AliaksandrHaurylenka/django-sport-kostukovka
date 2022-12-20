@@ -1,5 +1,6 @@
 from django.http import HttpResponse, Http404, HttpResponseNotFound
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
 
 from .forms import *
@@ -47,24 +48,35 @@ class SportKostukovkaNews(ListView):
 #     return render(request, 'sport_kostukovka/news.html', context=context)
 
 
-def addpage(request):
-    posts = News.objects.all()
-    if request.method == 'POST':
-        form = AddPostForm(request.POST, request.FILES)
-        if form.is_valid():
-            # print(form.cleaned_data)
-            form.save()
-            return redirect('home')
-    else:
-        form = AddPostForm()
+class AddPage(CreateView):
+    form_class = AddPostForm
+    template_name = 'sport_kostukovka/addpage.html'
+    context_object_name = 'posts'
+    success_url = reverse_lazy('home')
 
-    context = {
-        'posts': posts,
-        'menu': menu,
-        'form': form,
-        'title': 'Добавление статьи'
-    }
-    return render(request, 'sport_kostukovka/addpage.html', context=context)
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Добавление статьи'
+        context['menu'] = menu
+        return context
+# def addpage(request):
+#     posts = News.objects.all()
+#     if request.method == 'POST':
+#         form = AddPostForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             # print(form.cleaned_data)
+#             form.save()
+#             return redirect('home')
+#     else:
+#         form = AddPostForm()
+#
+#     context = {
+#         'posts': posts,
+#         'menu': menu,
+#         'form': form,
+#         'title': 'Добавление статьи'
+#     }
+#     return render(request, 'sport_kostukovka/addpage.html', context=context)
 
 
 def sport_sections(request):
@@ -89,6 +101,7 @@ class ShowPost(DetailView):
         context = super().get_context_data(**kwargs)
         context['title'] = context['post']
         context['menu'] = menu
+        # context['posts'] = posts
         return context
 
 # def show_news(request, post_slug):
