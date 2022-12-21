@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator
 from django.http import HttpResponse, Http404, HttpResponseNotFound
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
@@ -15,6 +16,7 @@ def index(request):
 
 
 class SportKostukovkaNews(DataMixin, ListView):
+    paginate_by = 3
     model = News
     template_name = 'sport_kostukovka/news.html'
     context_object_name = 'posts'
