@@ -2,12 +2,11 @@ from django.db.models import Count
 
 from .models import *
 
-
 menu = [{'title': "Спортивные секции", 'url_name': 'sport_sections'},
         {'title': "Новости", 'url_name': 'news'},
         {'title': "Контакты", 'url_name': 'contact'},
         {'title': "Войти", 'url_name': 'login'}
-]
+        ]
 
 
 class DataMixin:

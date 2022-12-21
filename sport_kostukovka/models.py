@@ -19,6 +19,7 @@ class News(models.Model):
         return reverse('post', kwargs={'post_slug': self.slug})
 
     class Meta:
+        verbose_name = 'Спортивные события'
         verbose_name_plural = 'Спортивные события'
         ordering = ['-time_create', 'title']
 
@@ -35,5 +36,6 @@ class Category(models.Model):
         # return reverse('category', kwargs={'cat_id': self.pk})
 
     class Meta:
+        verbose_name = 'Спортивные секции'
         verbose_name_plural = 'Спортивные секции'
         ordering = ['id']
