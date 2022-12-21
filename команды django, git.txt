@@ -1,0 +1,14 @@
+cd ../django-sport/kostukovka
+
+
+python manage.py runserver
+python manage.py makemigrations
+python manage.py migrate
+python manage.py createsuperuser
+
+
+git branch имя_ветки
+git checkout имя_ветки
+git checkout -b имя_ветки - сразу перейти на созданную ветку
+git merge имя_ветки - объединить ветки
+git push -u origin имя_ветки - закачать ветку в удаленный репозиторий
