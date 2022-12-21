@@ -13,16 +13,18 @@
     {% show_categories cat_selected=cat_selected %}
 
     <!--{% for c in cats %}-->
-      <!--&lt;!&ndash;{% if c.women__count > 0 %}&ndash;&gt;-->
+      <!--{% if c.news__count > 0 %}-->
         <!--{% if c.pk == cat_selected %}-->
           <!--<li class="selected">{{c.name}}</li>-->
         <!--{% else %}-->
           <!--<li><a href="{{c.get_absolute_url}}">{{c.name}}</a></li>-->
         <!--{% endif %}-->
-      <!--&lt;!&ndash;{% endif %}&ndash;&gt;-->
+      <!--{% endif %}-->
     <!--{% endfor %}-->
 
-    <li><a href="{% url 'add_page' %}">Добавить статью</a>
+    {% if user.is_authenticated %}
+      <li><a href="{% url 'add_page' %}">Добавить статью</a>
+    {% endif %}
   </ul>
 
 

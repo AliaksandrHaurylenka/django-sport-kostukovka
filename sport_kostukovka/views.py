@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, Http404, HttpResponseNotFound
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
@@ -40,11 +41,12 @@ class SportKostukovkaNews(DataMixin, ListView):
 #     return render(request, 'sport_kostukovka/news.html', context=context)
 
 
-class AddPage(DataMixin, CreateView):
+class AddPage(LoginRequiredMixin, DataMixin, CreateView):
     form_class = AddPostForm
     template_name = 'sport_kostukovka/addpage.html'
     context_object_name = 'posts'
     success_url = reverse_lazy('home')
+    login_url = reverse_lazy('home')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -118,19 +120,19 @@ class SportKostukovkaCategory(DataMixin, ListView):
     def get_queryset(self):
         return News.objects.filter(cat__slug=self.kwargs['cat_slug'], is_published=True)
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        c_def = self.get_user_context(title='Категория - ' + str(context['posts'][0].cat),
-                                      cat_selected=context['posts'][0].cat_id)
-        # return dict(list(context.items()) + list(c_def.items()))
-        return {**context, **c_def}
-
     # def get_context_data(self, *, object_list=None, **kwargs):
     #     context = super().get_context_data(**kwargs)
-    #     context['title'] = 'Категория - ' + str(context['posts'][0].cat)
-    #     context['menu'] = menu
-    #     context['cat_selected'] = context['posts'][0].cat_id
-    #     return context
+    #     c_def = self.get_user_context(title='Категория - ' + str(context['posts'][0].cat),
+    #                                   cat_selected=context['posts'][0].cat_id)
+    #     return dict(list(context.items()) + list(c_def.items()))
+        # return {**context, **c_def}
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = menu
+        context['title'] = 'Категория - ' + str(context['posts'][0].cat)
+        context['cat_selected'] = context['posts'][0].cat_id
+        return context
 
 
 # def show_category(request, cat_id):
