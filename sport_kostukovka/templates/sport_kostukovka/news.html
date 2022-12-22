@@ -72,4 +72,18 @@
       <li><a href="" class="disabled button big previous">Предыдущая страница</a></li>
       <li><a href="#" class="button big next">Следующая страница</a></li>
     </ul>
+
+    <nav class="list-pages">
+    <ul>
+        {% for p in paginator.page_range %}
+                   {% if page_obj.number == p %}
+        <li class="page-num page-num-selected">{{ p }}</li>
+                   {% else %}
+        <li class="page-num">
+            <a href="?page={{ p }}">{{ p }}</a>
+        </li>
+                   {% endif %}
+        {% endfor %}
+    </ul>
+</nav>
 {% endblock %}

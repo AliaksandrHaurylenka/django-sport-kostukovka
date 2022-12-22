@@ -10,6 +10,7 @@ menu = [{'title': "Спортивные секции", 'url_name': 'sport_sectio
 
 
 class DataMixin:
+    paginate_by = 1
     def get_user_context(self, **kwargs):
         context = kwargs
         posts = News.objects.all()
