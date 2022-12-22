@@ -15,7 +15,7 @@ def index(request):
 
 
 class SportKostukovkaNews(DataMixin, ListView):
-    paginate_by = 1
+    paginate_by = 2
     model = News
     template_name = 'sport_kostukovka/news.html'
     context_object_name = 'posts'
